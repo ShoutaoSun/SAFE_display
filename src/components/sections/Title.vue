@@ -85,8 +85,8 @@ const buttons = [
   },
   {
     disabled: false,
-    name: "人工智能安全",
-    link: '',
+    name: "深度学习",
+    link: 'https://baike.baidu.com/item/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/3729729',
     component: Document,
   }
 ]

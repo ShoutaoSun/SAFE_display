@@ -3,7 +3,7 @@
 // 表格数据
 const tableData = [
 {
-    model: 'Model A',
+    model: 'Label-consistent',
     params: '10 B',
     value_a: '123',
     value_b: '321',
@@ -34,7 +34,7 @@ const tableData = [
         <el-divider />
 
         <el-row justify="center">
-            <h1 class="section-title">More Results</h1>
+            <h1 class="section-title">Experimental Results</h1>
         </el-row>
         
         <!-- 数据表格 -->
@@ -48,7 +48,7 @@ const tableData = [
                     <el-tabs class="demo-tabs" model-value="Method A">
 
                     <!-- 第一个tab -->
-                    <el-tab-pane label="Method A" name="Method A">
+                    <el-tab-pane label="CIFAR-10 对比实验" name="Method A">
 
                         <!-- 表格数据 -->
                         <el-table 
@@ -63,16 +63,20 @@ const tableData = [
                         </el-table>
                     </el-tab-pane>
 
-                    <el-tab-pane label="Method B" name="Method B">
+                    <el-tab-pane label="多个基准数据集上的对比实验" name="Method B">
                         Method B
                     </el-tab-pane>
 
-                    <el-tab-pane label="Method C" name="Method C">
+                    <el-tab-pane label="黑盒实验" name="Method C">
                         Method C
                     </el-tab-pane>
 
-                    <el-tab-pane label="Method D" name="Method D">
+                    <el-tab-pane label="后门防御测试" name="Method D">
                         Method D
+                    </el-tab-pane>
+
+                    <el-tab-pane label="消融实验" name="Method E">
+                        Method E
                     </el-tab-pane>
                     </el-tabs>
 

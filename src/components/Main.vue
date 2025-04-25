@@ -42,14 +42,12 @@ export default {
 
 <template>
   <Title/>
-  <Carousel/>
-  <Video/>
   <Abstract/>
+  <Collapse/>
   <Markdown/>
   <Latex/>
-  <Table/>
-  <Collapse/>
   <Echart/>
+  <Table/>
   <Model3D/>
   <GaussianSplats3D/>
   <SeletionForComparison/>

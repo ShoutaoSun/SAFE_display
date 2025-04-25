@@ -18,16 +18,16 @@ const logo = {
 // 右侧更多菜单
 const more_paper = {
     "ExtDM": {
-        name: "ExtDM - CVPR 2024",
-        link: "https://zzcheng.top/ExtDM/",
+        name: "AI Tools",
+        link: "https://shoutaosun.github.io/posts/tools/",
     },
     "MPOT": {
-        name: "MPOT - ICCV 2023",
-        link: "https://zzcheng.top/MPOT/",
+        name: "Friendlinks",
+        link: "https://shoutaosun.github.io/friends/",
     },
     "ControlNet": {
-        name: "ControlNet - ICCV 2023",
-        link: "https://github.com/lllyasviel/ControlNet",
+        name: "Emoji Search",
+        link: "https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md",
     }
 }
 

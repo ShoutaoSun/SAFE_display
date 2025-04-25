@@ -14,7 +14,7 @@ export default defineComponent({
     <el-divider />
 
     <el-row justify="center">
-      <h1 class="section-title">Latex</h1>
+      <h1 class="section-title">Experimental Setup</h1>
     </el-row>
 
     <el-row justify="center">
