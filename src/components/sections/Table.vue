@@ -143,57 +143,169 @@ const tableData3 = [
 },
 {
     method: '',
-    model: 'ResNet-18',
-    v1: '85.4',
-    v2: '31.6',
-    v3: '30.5',
+    model: 'VGG11',
+    v1: '63.1',
+    v2: '88.7',
+    v3: '42.4',
 },
 {
-    method: 'AdvDoor',
-    BA: '62.7',
-    ASR: '74.5',
-    BA1: '73.4',
-    ASR1: '79.6',
-    BA2: '72.9',
-    ASR2: '75.1',
-},
-{
-    method: 'Sleeper Agent',
-    BA: '61.5',
-    ASR: '62.8',
-    BA1: '73.8',
-    ASR1: '65.5',
-    BA2: '71.4',
-    ASR2: '60.3',
-},
-{
-    method: 'Narcissus',
-    BA: '66.3',
-    ASR: '63.4',
-    BA1: '75.8',
-    ASR1: '66.9',
-    BA2: '75.2',
-    ASR2: '58.6',
+    method: '',
+    model: 'MobileNetV2',
+    v1: '61.2',
+    v2: '56.5',
+    v3: '45.3',
 },
 {
     method: 'Silent Killer',
-    BA: '58.6',
-    ASR: '83.7',
-    BA1: '70.1',
-    ASR1: '88.4',
-    BA2: '66.7',
-    ASR2: '78.5',
+    model: 'ResNet-18',
+    v1: '83.7',
+    v2: '80.8',
+    v3: '89.6',
+},
+{
+    method: '',
+    model: 'VGG11',
+    v1: '76.8',
+    v2: '92.9',
+    v3: '95.6',
+},
+{
+    method: '',
+    model: 'MobileNetV2',
+    v1: '30.5',
+    v2: '75.4',
+    v3: '91.2',
 },
 {
     method: 'Ours',
-    BA: '65.7',
-    ASR: '90.1',
-    BA1: '76.2',
-    ASR1: '94.8',
-    BA2: '74.1',
-    ASR2: '86.2',
+    model: 'ResNet-18',
+    v1: '93.1',
+    v2: '87.8',
+    v3: '91.6',
+},
+{
+    method: '',
+    model: 'VGG11',
+    v1: '82.5',
+    v2: '98.7',
+    v3: '98.2',
+},
+{
+    method: '',
+    model: 'MobileNetV2',
+    v1: '42.1',
+    v2: '80.4',
+    v3: '96.5',
 },
 ]
+
+const tableData4 = [
+{
+    method: 'Label-consistent',
+    BA: '88.7',
+    ASR: '13.5',
+    BA1: '78.3',
+    ASR1: '12.4',
+    BA2: '88.0',
+    ASR2: '58.1',
+},
+{
+    method: 'Hidden Trigger',
+    BA: '86.2',
+    ASR: '15.6',
+    BA1: '75.1',
+    ASR1: '14.6',
+    BA2: '89.8',
+    ASR2: '75.3',
+},
+{
+    method: 'AdvDoor',
+    BA: '85.4',
+    ASR: '19.8',
+    BA1: '73.7',
+    ASR1: '14.2',
+    BA2: '87.7',
+    ASR2: '74.1',
+},
+{
+    method: 'Sleeper Agent',
+    BA: '72.7',
+    ASR: '18.3',
+    BA1: '70.2',
+    ASR1: '13.4',
+    BA2: '86.9',
+    ASR2: '76.5',
+},
+{
+    method: 'Narcissus',
+    BA: '87.2',
+    ASR: '63.9',
+    BA1: '85.9',
+    ASR1: '15.3',
+    BA2: '90.3',
+    ASR2: '74.2',
+},
+{
+    method: 'Silent Killer',
+    BA: '74.6',
+    ASR: '71.5',
+    BA1: '84.3',
+    ASR1: '35.9',
+    BA2: '81.7',
+    ASR2: '88.7',
+},
+{
+    method: 'Ours',
+    BA: '85.5',
+    ASR: '74.6',
+    BA1: '85.6',
+    ASR1: '39.6',
+    BA2: '86.7',
+    ASR2: '95.4',
+},
+]
+
+const tableData5 = [
+{
+    method: '不含特征对齐',
+    v1: '83.7',
+    v2: '92.9',
+    v3: '95.6',
+},
+{
+    method: '不含梯度对齐',
+    v1: '14.9',
+    v2: '22.7',
+    v3: '19.7',
+},
+{
+    method: '不含特征对齐且不含梯度对齐',
+    v1: '8.2',
+    v2: '9.4',
+    v3: '8.6',
+},
+{
+    method: '正常框架',
+    v1: '93.1',
+    v2: '98.7',
+    v3: '98.2',
+},
+]
+
+// 行列合并方法
+const spanMethod = ({ row, column, rowIndex, columnIndex }) => {
+  // Method 列的行合并
+  if (columnIndex === 0) {
+    if (rowIndex === 0) return { rowspan: 3, colspan: 1 }  // Sleeper Agent
+    if (rowIndex === 3) return { rowspan: 3, colspan: 1 }  // Silent Killer
+    if (rowIndex === 6) return { rowspan: 3, colspan: 1 }  // Ours
+    return { rowspan: 0, colspan: 0 }  // 隐藏被合并的单元格
+  }
+  
+  // 其他列不合并
+  return { rowspan: 1, colspan: 1 }
+}
+
 </script>
 
 <template>
@@ -223,7 +335,7 @@ const tableData3 = [
                             :default-sort="{ prop: '', order: 'descending' }"
                             scrollbar-always-on
                         >
-                            <el-table-column prop="method" label="Method" width="140" align="center"/>
+                            <el-table-column prop="method" label="对比方法" width="140" align="center"/>
                             <el-table-column label="标准设置" align="center">
                                 <el-table-column prop="p" label="p (%)" width="60" align="center" sortable/>
                                 <el-table-column prop="ε" label="ε" width="90" align="center" sortable/>
@@ -244,7 +356,7 @@ const tableData3 = [
                             :default-sort="{ prop: '', order: 'descending' }"
                             scrollbar-always-on
                         >
-                            <el-table-column prop="method" label="Method" width="150" align="center"/>
+                            <el-table-column prop="method" label="对比方法" width="150" align="center"/>
                             <el-table-column label="数据集" align="center">
                                 <el-table-column label="CIFAR-100" align="center">
                                     <el-table-column prop="BA" label="BA (%)" width="90" align="center" sortable/>
@@ -263,15 +375,64 @@ const tableData3 = [
                     </el-tab-pane>
 
                     <el-tab-pane label="黑盒实验" name="Method C">
-                        实验指标：ASR (%)
+                        实验测试指标：ASR (%)
+                        <el-table 
+                            :data="tableData3" 
+                            style="width: 100%"
+                            :span-method="spanMethod"
+                            :header-cell-style="{ 'text-align': 'center' }"
+                        >
+
+                        <el-table-column prop="method" label="对比方法" width="150" align="center"/>
+                        <el-table-column prop="model" label="代理模型" width="180" align="center"/>
+                        <el-table-column label="受害模型" align="center">
+                        <el-table-column prop="v1" label="ResNet-18" width="120" align="center"/>
+                        <el-table-column prop="v2" label="VGG11" width="120" align="center"/>
+                        <el-table-column prop="v3" label="MobileNetV2" width="120" align="center"/>
+                        </el-table-column>
+                    </el-table>
                     </el-tab-pane>
 
                     <el-tab-pane label="后门防御测试" name="Method D">
-                        Method D
+                        <!-- 表格数据 -->
+                        <el-table 
+                            :data="tableData4"
+                            :default-sort="{ prop: '', order: 'descending' }"
+                            scrollbar-always-on
+                        >
+                            <el-table-column prop="method" label="对比方法" width="150" align="center"/>
+                            <el-table-column label="防御方法" align="center">
+                                <el-table-column label="Activation Clustering" align="center">
+                                    <el-table-column prop="BA" label="BA (%)" width="90" align="center" sortable/>
+                                    <el-table-column prop="ASR" label="ASR (%)" width="90" align="center" sortable/>
+                                </el-table-column>
+                                <el-table-column label="DP-SGD" align="center">
+                                    <el-table-column prop="BA1" label="BA (%)" align="center" width="90" sortable/>
+                                    <el-table-column prop="ASR1" label="ASR (%)" align="center" width="90" sortable/>
+                                </el-table-column>
+                                <el-table-column label="MixUp" align="center">
+                                    <el-table-column prop="BA2" label="BA (%)" align="center" width="90" sortable/>
+                                    <el-table-column prop="ASR2" label="ASR (%)" align="center" width="90" sortable/>
+                                </el-table-column>
+                            </el-table-column>
+                        </el-table>
                     </el-tab-pane>
 
                     <el-tab-pane label="消融实验" name="Method E">
-                        Method E
+                        实验测试指标：ASR (%)
+                        <!-- 表格数据 -->
+                        <el-table 
+                            :data="tableData5"
+                            :default-sort="{ prop: '', order: 'descending' }"
+                            scrollbar-always-on
+                        >
+                            <el-table-column prop="method" label="对比方法" width="210" align="center"/>
+                            <el-table-column label="受害模型" align="center">
+                                <el-table-column prop="v1" label="ResNet-18" width="160" align="center" sortable/>
+                                <el-table-column prop="v2" label="VGG11" width="160" align="center" sortable/>
+                                <el-table-column prop="v3" label="MobileNetV2" width="160" align="center" sortable/>
+                            </el-table-column>
+                        </el-table>
                     </el-tab-pane>
                     </el-tabs>
 
