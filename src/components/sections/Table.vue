@@ -137,17 +137,16 @@ const tableData3 = [
 {
     method: 'Sleeper Agent',
     model: 'ResNet-18',
-    v1: 'ResNet-18',
-
+    v1: '85.4',
+    v2: '31.6',
+    v3: '30.5',
 },
 {
-    method: 'Hidden Trigger',
-    BA: '64.3',
-    ASR: '6.8',
-    BA1: '75.6',
-    ASR1: '7.3',
-    BA2: '74.5',
-    ASR2: '5.0',
+    method: '',
+    model: 'ResNet-18',
+    v1: '85.4',
+    v2: '31.6',
+    v3: '30.5',
 },
 {
     method: 'AdvDoor',

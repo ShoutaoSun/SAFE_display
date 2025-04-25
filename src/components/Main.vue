@@ -42,6 +42,10 @@ export default {
 
 <template>
   <Title/>
+  <br>
+  <br>
+  <br>
+  <br>
   <Abstract/>
   <Collapse/>
   <Markdown/>
