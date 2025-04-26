@@ -9,7 +9,10 @@ export default defineComponent({
 })
 </script>
 
-<template>
+<script setup lang="ts">
+import page from '../mds/setup.mdx';
+</script>
+<!-- <template>
   <div>
     <el-divider />
 
@@ -40,8 +43,21 @@ export default defineComponent({
       </el-col>
     </el-row>
   </div>
+</template> -->
+
+<!-- <style scoped> -->
+
+<!-- </style> -->
+
+<template>
+  <div>
+    <el-divider />
+
+    <el-row justify="center">
+        <el-col :xs="24" :sm="20" :md="16" :lg="12" :xl="12">
+            <page />
+        </el-col>
+    </el-row>
+
+  </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -1,53 +1,68 @@
 # Methodology
 
-The render result of `md.mdx` is here.
+## 样本差异性解释
 
-## Good (H2)
+![](./explain.png)
 
-### Nice (H3)
+如图(a)所示，在低阈值区间内选择目标标签样本会显著改变代理模型 $$f_\theta$$ 的决策边界。这些样本的位置更接近 $$f_\theta$$ 的原始决策边界，在数据投毒并进行模型训练时会导致决策边界发生大幅移动，这种变化有助于让受害模型将包含触发器的源标签样本错误地分类为目标标签。如图(b)所示，选择高阈值区间的目标标签样本进行投毒和模型训练时，决策边界变化很小。这些样本的位置距离 $$f_\theta$$ 的原始决策边界较远，因此中毒后的决策边界变化并不明显，中毒样本在特征空间内跨越决策边界时面临着更大的挑战，这种限制降低了带有触发器的源标签样本被误判为目标标签的概率，从而降低了 ASR。
 
-[**Diffusion models**](https://lilianweng.github.io/posts/2021-07-11-diffusion-models/) are a class of generative models in machine learning that have gained significant attention in recent years. 
+综上，选择不同阈值区间的样本对攻击效果有很大影响。低阈值区间的样本更接近原始决策边界，会使决策边界发生更大的偏移，攻击效率更高。相反，来自离边界较远的高阈值区间的样本会导致较小的边界偏移和较低的 ASR。这一发现强调了样本选择在决定后门攻击成功与否中的关键作用。
 
-**Text-to-image diffusion models** have various application scenarios, including:
+## 攻击流程
 
-- **Art & Design**: Used by artists for creative art and fashion designers to generate clothing renderings.
-- **Advertising & Marketing**: Helps in creating advertising posters and product promotion maps.
-- **Game & Film**: Applied in game scene and character design, as well as film and television concept design...
-
-> Thegeneral training steps of diffusion models are as follows:
-
-1. Data collection
-2. Noise addition
-3. Model building
-4. Training
-5. Evaluation
-6. Deployment
-
-
-```
-import torch 
-
-def denoise():
-    pass
-```
-
-* [ ] to do
-* [x] done
-* [x] ~114514~
+本文所提出攻击方案的流程如下图所示，共分为四个步骤。
 
 ![](./method.png)
 
-Lift ($$L$$) can be determined by Lift Coefficient ($$C_L$$) like the following
-equation.
+特别地，本文引入**特征质心**，采用**特征对齐**提升干净标签攻击的有效性，详细步骤如下：
+
+1. **计算特征质心**
 
 $$
-L = \frac{1}{2} \rho v^2 S C_L
+\{ \boldsymbol{v}_j \}_{j=1}^{N} \in\mathcal{V} \leftarrow \{f_{\theta_c}(x_j)\sim \ell_t\}_{j=1}^N
 $$
 
+$$
+\{ \boldsymbol{v}_s \}_{s=1}^{S} \in \mathcal{V'}~(S \le D)
+$$
 
-### Table (H3)
+$$
+\mathbf{R}_t = \frac{1}{S} \sum_{s=1}^{S} \boldsymbol{v}_{s}
+$$
 
-| a       | b       | c     |  d      |
-| -       | :-      | -:    | :-:     |
-| Alpha   | Bravo   | Alpha | Bravo   |
-| 中文    | Charlie | 👩‍❤️‍👩    | Delta   |
+2. **进行特征对齐**
+
+$$
+\delta^p \leftarrow \{\delta^p_k =\delta^t\}_{k=1}^{K}
+$$
+
+$$
+L_a = \frac{1}{Q} \sum\nolimits_{x^t_q \in \mathcal{D}_{\delta^t}} \mathcal{L}(f_\theta(x^t_q), \ell_t) = \frac{1}{Q} \sum\nolimits_{x_q \in \mathcal{D}_s} \mathcal{L}(f_\theta(x_q + \delta^t), \ell_t)
+$$
+
+$$
+L_v' = \frac{1}{K} \sum\nolimits_{x_k \in \mathcal{D}_a} \Big( \mathcal{L} \left( f_\theta(x_k + \delta^p_k), \ell_t \right) + \lambda \lVert f_{\theta_c}(x_k + \delta^p_k)-\mathbf{R}_t \rVert_2^2 \Big)
+$$
+
+$$
+\mathcal{A} = 1- \frac{\nabla_{\theta} {{L}_v'} \cdot \nabla_{\theta} {L}_a}{{\|\nabla_{\theta} {L}_v'\|}\cdot{\|\nabla_{\theta} {L}_a\|}}
+$$
+
+$$
+\delta^p \leftarrow \delta^p - \alpha_p\frac{\partial \mathcal{A}}{\partial \delta^p} 
+$$
+
+$$
+\delta^p \leftarrow \text{Clip}(\delta^p;\epsilon_p)
+$$
+
+[算法补充] 令 $$\epsilon_t=[-\epsilon_t, \epsilon_t]$$，$$\text{Clip($z; \epsilon_{t})$ }$$函数的计算方式如下：
+$$
+\text{Clip}(z; [-\epsilon_{t}, \epsilon_{t}]) = \left \{
+    \begin{array}{ll}
+        \epsilon_t & \quad \text{if} \quad z > \epsilon_t, \\
+        z & \quad \text{if} \quad -\epsilon_t \leq z \leq \epsilon_t, \\
+        -\epsilon_t & \quad \text{if} \quad z < -\epsilon_t.
+    \end{array}
+\right.
+$$
