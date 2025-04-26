@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const NUM_INTERP_FRAMES = 10;
+const NUM_INTERP_FRAMES = 6;
 const inputImagePaths = [];
 const outputImagePaths = [];
 const inputImageRootPath = './image_slider/huaqiang/input/';
