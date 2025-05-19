@@ -160,7 +160,7 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            data: [12.0, 53.4, 74.4, 75.7, 93.1]
+            data: [12.0, 53.4, 74.4, 75.7, 95.1]
           },
           {
             name: 'CIFAR-100',
@@ -235,7 +235,7 @@ export default {
             emphasis: {
               focus: 'series'
             },
-            data: [73.1, 78.4, 88.3, 91.3, 92.0, 93.1]
+            data: [73.1, 78.4, 88.3, 91.3, 92.0, 95.1]
           },
           {
             name: 'VGG11',
