@@ -3,31 +3,47 @@
 export default {
   data() {
     return {
+      // 新增攻击对选择数据
+      attackpair: '',
+      attackpairs: [
+        { label: 'pair1', value: '猫 - 鹿', left: '猫', right: '鹿' },
+        { label: 'pair2', value: '狗 - 青蛙', left: '狗', right: '青蛙' },
+        { label: 'pair3', value: '飞机 - 摩托车', left: '飞机', right: '摩托车' },
+        { label: 'pair4', value: '船 - 卡车', left: '船', right: '卡车' }
+      ],
+
+      // 原有数据
       value1: '',
       value2: '',
       comparison1ImageRootPath: '',
       comparison2ImageRootPath: '',
-      comparisonImageRootPath: './image_comparison/',
+      comparisonImageRootPath: './attack_implementation/',
       comparison1Loading: true,
       comparison2Loading: true,
       options: [
-        'bottle',
-        'box',
-        'clip',
-        'cup',
-        'duck',
-        'flim',
-        'glass',
-        'toy'
+        'bottle'
       ],
     }
   },
   beforeMount() {
-    // 在组件挂载之前预加载第一张图片
-    this.handleChange1(this.options[0]);
-    this.handleChange2(this.options[1]);
+    // 默认加载第一个攻击对
+    if (this.attackpairs.length > 0) {
+      this.attackpair = this.attackpairs[0].value;
+      this.loadAttackPair(this.attackpair);
+    }
   },
   methods: {
+    // 加载攻击对
+    loadAttackPair(pairValue) {
+      const selectedpair = this.attackpairs.find(pair => pair.value === pairValue);
+      if (selectedpair) {
+        this.loadImage1(selectedpair.left);
+        this.loadImage2(selectedpair.right);
+        this.value1 = selectedpair.left;
+        this.value2 = selectedpair.right;
+      }
+    },
+
     handleChange1(value) {
       this.loadImage1(value);
     },
@@ -71,7 +87,7 @@ export default {
     <el-divider />
 
     <el-row justify="center">
-      <h1 class="section-title">Comparison</h1>
+      <h1 class="section-title">Attack Implementation</h1>
     </el-row>
 
     <el-row justify="center">
