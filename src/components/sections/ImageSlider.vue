@@ -2,18 +2,18 @@
 import { ref, onMounted } from 'vue';
 
 const NUM_INTERP_FRAMES = 6;
-const categories = ['cat', 'dog', 'ship', 'airplane'];
+const categories = ['cat', 'dog', 'ship', 'plane'];
 const categoryChineseNames = {
   'cat': '猫',
   'dog': '狗',
   'ship': '船',
-  'airplane': '飞机'
+  'plane': '飞机'
 };
 const imagePaths = {
   dog: [],
   cat: [],
   ship: [],
-  airplane: []
+  plane: []
 };
 const imageRootPath = './q_image/';
 const minValue = 0;
@@ -24,7 +24,7 @@ let currentImages = ref({
   dog: "",
   cat: "",
   ship: "",
-  airplane: ""
+  plane: ""
 });
 let sliderValue = ref(0);
 let isLoading = ref(true);
@@ -51,9 +51,9 @@ const preloadImages = () => {
   });
 }
 
-onMounted(() => {
-    preloadImages();
-    handleChange(0);
+onMounted(async () => {
+  await preloadImages();   // 等待 preload 完成
+  handleChange(0);         // 再切换图片
 });
 
 const handleChange = (value) => {
@@ -93,7 +93,7 @@ const handleChange = (value) => {
                     <img :src="currentImages[category]" style="width: 100%; object-fit: contain;">
                   </template>
                 </el-skeleton>
-                <span class="demonstration">{{ categoryChineseNames[category] }}</span>
+                <span class="demonstration">原始标签：{{ categoryChineseNames[category] }}</span>
               </div>
             </div>
           </el-col>
