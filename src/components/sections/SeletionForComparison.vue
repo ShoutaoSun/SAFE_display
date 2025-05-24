@@ -3,16 +3,16 @@
 export default {
   data() {
     return {
-      // 新增攻击对选择数据
-      attackpair: '',
-      attackpairs: [
-        { label: 'pair1', value: '猫 - 鹿', left: '猫', right: '鹿' },
-        { label: 'pair2', value: '狗 - 青蛙', left: '狗', right: '青蛙' },
-        { label: 'pair3', value: '飞机 - 摩托车', left: '飞机', right: '摩托车' },
-        { label: 'pair4', value: '船 - 卡车', left: '船', right: '卡车' }
+      // 攻击对选择相关数据
+      attackpair: '',  // 当前选中的攻击对值
+      attackpairs: [  // 可选的攻击对列表
+        { label: 'pair1', value: '猫 - 鹿', left: '猫', right: '鹿', en: 'cat'},
+        { label: 'pair2', value: '狗 - 青蛙', left: '狗', right: '青蛙', en: 'dog'},
+        { label: 'pair3', value: '飞机 - 摩托车', left: '飞机', right: '摩托车', en: 'plane'},
+        { label: 'pair4', value: '船 - 卡车', left: '船', right: '卡车', en: 'ship'}
       ],
 
-      // 原有数据
+      // 图像展示数据
       value1: '',
       value2: '',
       comparison1ImageRootPath: '',
@@ -20,9 +20,6 @@ export default {
       comparisonImageRootPath: './attack_implementation/',
       comparison1Loading: true,
       comparison2Loading: true,
-      options: [
-        'bottle'
-      ],
     }
   },
   beforeMount() {
@@ -33,12 +30,12 @@ export default {
     }
   },
   methods: {
-    // 加载攻击对
+    // 加载选择的攻击对
     loadAttackPair(pairValue) {
       const selectedpair = this.attackpairs.find(pair => pair.value === pairValue);
       if (selectedpair) {
-        this.loadImage1(selectedpair.left);
-        this.loadImage2(selectedpair.right);
+        this.loadImage1(`${selectedpair.en}_1`);
+        this.loadImage2(`${selectedpair.en}_2`);
         this.value1 = selectedpair.left;
         this.value2 = selectedpair.right;
       }
@@ -90,11 +87,28 @@ export default {
       <h1 class="section-title">Attack Implementation</h1>
     </el-row>
 
+    <el-row justify="center" style="margin: 22px 0;">
+      <span style="margin-top: 2.5px ; margin-right: 5px; font-size: 16px;">选择攻击对：</span>
+      <el-select
+        v-model="attackpair"
+        size="medium"
+        style="width: 180px"
+        @change="loadAttackPair"
+      >
+        <el-option
+          v-for="item in attackpairs"
+          :key="item.value"
+          :label="item.value"
+          :value="item.value"
+        />
+      </el-select>
+    </el-row>
+
     <el-row justify="center">
       <el-col >
-        <el-row justify="center" :gutter="20">
+        <el-row justify="center" :gutter="5">
 
-          <el-col :xs="12" :sm="10" :md="8" :lg="6" :xl="6" >
+          <el-col :xs="12" :sm="10" :md="8" :lg="6" :xl="6" style="margin-right: -80px;">
 
             <div class="demo-image">
               <div class="block">
@@ -108,29 +122,12 @@ export default {
                     <el-skeleton-item variant="image" style="width: 100%; height: 100%" />
                   </template>
                   <template #default>
-                    <el-image :src="comparison1ImageRootPath" style="width: 100%; height: 100%" fit="scale-down"/>
+                    <el-image :src="comparison1ImageRootPath" style="width: 40%; height: 40%" fit="scale-down"/>
                   </template>
                 </el-skeleton>
-                <span class="demonstration">input: {{ comparison1ImageRootPath }}</span>
+                <span class="demonstration">后门模型预测结果： {{ value1 }}</span>
               </div>
             </div>
-
-            <el-row justify="center">
-                <el-select
-                  class="select"
-                  v-model="value1"
-                  placeholder="Select"
-                  size="large"
-                  @change="handleChange1"
-                >
-                  <el-option
-                    v-for="item in options"
-                    :key="item"
-                    :label="item"
-                    :value="item"/>
-                </el-select>
-            </el-row>
-
           </el-col>
 
           <el-col :xs="12" :sm="10" :md="8" :lg="6" :xl="6" >
@@ -147,28 +144,12 @@ export default {
                     <el-skeleton-item variant="image" style="width: 100%; height: 100%" />
                   </template>
                   <template #default>
-                    <el-image :src="comparison2ImageRootPath" style="width: 100%; height: 100%" fit="scale-down"/>
+                    <el-image :src="comparison2ImageRootPath" style="width: 40%; height: 40%" fit="scale-down"/>
                   </template>
                 </el-skeleton>
-                <span class="demonstration">input: {{ comparison2ImageRootPath }}</span>
+                <span class="demonstration">后门模型预测结果： {{ value2 }}</span>
               </div>
             </div>
-
-            <el-row justify="center">
-              <el-select
-                class="select"
-                v-model="value2"
-                placeholder="Select"
-                size="large"
-                @change="handleChange2"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item"
-                  :label="item"
-                  :value="item"/>
-              </el-select>
-            </el-row>
           </el-col>
 
         </el-row>
